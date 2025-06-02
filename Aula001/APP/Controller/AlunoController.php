@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Model\Aluno;
 use Exception;
 
-final class AlunoController extends Controller
-{
+final class AlunoController extends Controller{
+
     public static function index() : void
     {
         parent::isProtected(); 
@@ -17,7 +17,7 @@ final class AlunoController extends Controller
             $model->getAllRows();
 
         } catch(Exception $e) {
-            $model->setError("Ocorreu um erro ao buscar os alunos:");
+            $model->setError("Ocorreu um erro ao buscar os alunos: ");
             $model->setError($e->getMessage());
         }
 
@@ -56,8 +56,8 @@ final class AlunoController extends Controller
         }
 
         parent::render('Aluno/form_aluno.php', $model);        
-    } 
-    
+    }
+
     public static function delete() : void
     {
         parent::isProtected(); 

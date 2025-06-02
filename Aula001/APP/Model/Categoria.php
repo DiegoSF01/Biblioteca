@@ -1,36 +1,38 @@
 <?php
 
-namespace App\Model;
+namespace APP\Model;
 
-use App\DAO\CategoriaDAO;
+
+use APP\DAO\AutorDAO;
 use Exception;
 
-final class Categoria extends Model
-{
 
+final class Categoria extends Model{
     public ?int $Id = null;
 
-    public ?string $Descricao
-    {
+
+    public ?string $Descricao{
+
         set
         {
-            if(strlen($value) < 3)
-                throw new Exception("Descricao deve ter no mínimo 3 caracteres.");
-
-            $this->Descricao = $value;
+            if(strlen($value)<4)
+            {
+                throw new Exception("Digite uma descrição valida");
+                $this->Descricao = $value;
+            }
         }
-
-        get => $this->Descricao ?? null;
+        get=>$this->Descricao ?? null;
     }
+
 
     function save() : Categoria
     {
         return new CategoriaDAO()->save($this);
     }
 
-    function getById(int $id) : ?Categoria
+    function selectById() : ?Categoria
     {
-        return new CategoriaDAO()->selectById($id);
+        return new CategoriaDAO()->selectById($Id);
     }
 
     function getAllRows() : array
@@ -40,8 +42,11 @@ final class Categoria extends Model
         return $this->rows;
     }
 
-    function delete(int $id) : bool
+    function delete() : bool
     {
-        return new CategoriaDAO()->delete($id);
+        return new CategoriaDAO()->delete();
     }
+
+
+
 }

@@ -6,9 +6,11 @@ use APP\Controller\
     InicialController,
     LoginController,
     AutorController,
-    CategotiaController,
+    CategoriaController,
     LivroController,
-    EmprestimoController
+    EmprestimoController,
+    
+
 };
 
 $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -18,9 +20,8 @@ switch($url)
     case '/':
         InicialController::index();
     break;
-
     /*
-        Rotas para Login
+    *Rotas para login
     */
     case '/login':
         LoginController::index();
@@ -31,8 +32,10 @@ switch($url)
     break;
 
     /*
-        Rotas para alunos
-     */
+    *Rotas para alunos
+    */
+
+
     case '/aluno':
         AlunoController::index();
     break;
@@ -42,12 +45,12 @@ switch($url)
     break;
 
     case '/aluno/delete':
-        AlunoController::delete();
+        AlunoController::index();
     break;
 
-    /*
-        Rotas para autores
-    */
+    /**
+     *Rotas para autores  
+     */
 
     case '/autor':
         AutorController::index();
@@ -61,9 +64,7 @@ switch($url)
         AutorController::delete();
     break;
 
-    /*
-        Rotas para categorias
-    */
+    /**Rotas categoria */
 
     case '/categoria':
         CategoriaController::index();
@@ -77,9 +78,7 @@ switch($url)
         CategoriaController::delete();
     break;
 
-    /*
-        Rotas para livros
-    */
+    /**Rota para livros */
 
     case '/livro':
         LivroController::index();
@@ -93,9 +92,7 @@ switch($url)
         LivroController::delete();
     break;
 
-    /*
-        Rotas para Emprestimo
-    */
+    /**Rotas emprestimo */
 
     case '/emprestimo':
         EmprestimoController::index();
@@ -108,4 +105,6 @@ switch($url)
     case '/emprestimo/delete':
         EmprestimoController::delete();
     break;
+
+
 }

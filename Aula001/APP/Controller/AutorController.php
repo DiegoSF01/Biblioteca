@@ -1,79 +1,82 @@
 <?php
+    namespace APP\Controller;
 
-namespace App\Controller;
+    use APP\Model\Autor;
+    use Exception;
 
-use App\Model\Autor;
-use Exception;
-
-final class AutorController extends Controller
-{
-    public static function index() : void
+    final class AutorConrtoller extends Controller
     {
-        parent::isProtected(); 
-
-        $model = new Autor();
-        
-        try {
-            $model->getAllRows();
-
-        } catch(Exception $e) {
-            $model->setError("Ocorreu um erro ao buscar os autores:");
-            $model->setError($e->getMessage());
-        }
-
-        parent::render('Autor/lista_autor.php', $model); 
-    } 
-
-    public static function cadastro() : void
-    {
-        parent::isProtected(); 
-
-        $model = new Autor();
-        
-        try
+        public static function index() : void
         {
-            if(parent::isPost())
+            parent::isProtected();
+
+            $model = new Autor();
+
+            try
             {
-                $model->Id = !empty($_POST['id']) ? $_POST['id'] : null;
-                $model->Nome = $_POST['nome'];
-                $model->Data_Nascimento = $_POST['data_nascimento'];
-                $model->CPF = $_POST['cpf'];
-                $model->save();
-
-                parent::redirect("/autor");
-
-            } else {
-    
-                if(isset($_GET['id']))
-                {              
-                    $model = $model->getById( (int) $_GET['id'] );
-                }
+                $model->getAllRows();
+            }
+            catch(Exception $e)
+            {
+                $model->setError("Ocorreu um erro ao buscar os autores:");
+                $model->setError($e->getMessage());
             }
 
-        } catch(Exception $e) {
-
-            $model->setError($e->getMessage());
+            parent::render('Autor/lista_autor.php', $model);
         }
 
-        parent::render('Autor/form_autor.php', $model);        
-    } 
-    
-    public static function delete() : void
-    {
-        parent::isProtected(); 
-
-        $model = new Autor();
-        
-        try 
+        public static function cadastro() : void
         {
-            $model->delete( (int) $_GET['id']);
-            parent::redirect("/autor");
+            parent::isProtected();
 
-        } catch(Exception $e) {
-            $model->setError("Ocorreu um erro ao excluir o autor:");
-            $model->setError($e->getMessage());
-        } 
-        
-        parent::render('Autor/lista_autor.php', $model);  
+            $model = new Autor();
+
+            try
+            {
+                if(parent::isPost())
+                {
+                    $model->Id = !empty($_POST['id']) ? $_POST['id'] : null;
+                    $model->Nome = $_POST['nome'];
+                    $model->Nascimento = $_POST['nascimento'];
+                    $model->CPF = $_POST['cpf'];
+                    $model->save();
+
+                    parent::redirect("/autor");
+                }
+                else
+                {
+                    if(isset($_GET['id']))
+                    {
+                        $model = $model->selectById( (int) $_GET['id']);
+                    }
+                }
+            }
+            catch(Exception $e)
+            {
+                $model->setError($e->getMessage());
+            }
+
+            parent::render('Autor/form_autor.php', $model);   
+        }
+
+        public static function delete() : void
+        {
+            parent::isProtected();
+
+            $model = new Autor();
+
+            try
+            {
+                $model->delete( (int) $_GET['id']);
+                parent::redirect("/autor");
+            }
+            catch (Exception $e)
+            {
+                $model->setError("Ocorreu um erro ao excluir o autor:");
+                $model->setError($e->getMessage());
+            }
+
+            parent::render('Autor/form_autor.php', $model);   
+        }
     }
-}
+?>

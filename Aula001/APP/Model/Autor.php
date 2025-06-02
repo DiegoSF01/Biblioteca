@@ -1,74 +1,76 @@
 <?php
 
-namespace App\Model;
+namespace APP\Model;
 
-use App\DAO\AutorDAO;
+
+use APP\DAO\AutorDAO;
 use Exception;
 
-final class Autor extends Model
-{
+
+final class Autor extends Model{
     public ?int $Id = null;
 
-    public ?string $Nome
-    {
+    public ?string $Nome{
         set
         {
-            if(strlen($value) < 3)
-                throw new Exception("Nome deve ter no mínimo 3 caracteres.");
+            if(strlen($value)<1)
+            {
+                throw new Exception("O nome deve ter pelo menos 1 caracter");
 
-            $this->Nome = $value;
+                $this->Nome = $value;
+            }
         }
-
-        get => $this->Nome ?? null;
+        get=>$this->Nome ?? null;
     }
 
+    public ?string $CPF{
+        set
+        {
+            if(strlen($value)<11)
+            {
+                throw new Exception("Preencha o CPF corretamente");
 
-    public ?string $Data_Nascimento
-    {
+                $this->CPF = $value;
+            }
+
+            
+        }
+        get=>$this->CPF ?? null;
+
+    }
+
+    public ?string $Nascimento{
         set
         {
             if(empty($value))
-                throw new Exception("Preencha a Data de Nascimento");
+            {
+                throw new Exception("preencha a data ");
 
-            $this->Data_Nascimento = $value;
+                $this->Nascimento = $value;
+            }
         }
-
-        get => $this->Data_Nascimento ?? null;
+        get=>$this->Nascimento ?? null;
     }
 
-
-    public ?string $CPF
-    {
-        set
-        {
-            if(strlen($value) < 11)
-                throw new Exception("CPF deve ter no mínimo 11 caracteres.");
-
-            $this->CPF = $value;
-        }
-
-        get => $this->CPF ?? null;
-    }
 
     function save() : Autor
     {
         return new AutorDAO()->save($this);
     }
 
-    function getById(int $id) : ?Autor
+    function selectById() : ?Autor
     {
-        return new AutorDAO()->selectById($id);
+        return new AutorDAO()->selectById($Id);
     }
 
     function getAllRows() : array
     {
         $this->rows = new AutorDAO()->select();
-
         return $this->rows;
     }
 
-    function delete(int $id) : bool
+    function delete() : bool
     {
-        return new AutorDAO()->delete($id);
+        return new AutorDAO()->delete();
     }
 }
