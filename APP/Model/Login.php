@@ -2,11 +2,11 @@
 
 namespace App\Model;
 
-use App\DAO\LoginDAO;
+use App\Dao\LoginDAO;
 
-final class Login
+final class Login 
 {
-    public $Id, $Email, $Senha, $Nome;
+    public $id, $email, $senha, $nome;
 
     public function logar() : ?Login
     {

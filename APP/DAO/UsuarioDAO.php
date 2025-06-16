@@ -2,6 +2,7 @@
 
 namespace APP\DAO;
 
+use App\DAO\DAO;
 use APP\Model\Usuario;
 
 final class UsuarioDAO extends DAO{
@@ -30,7 +31,7 @@ final class UsuarioDAO extends DAO{
     }
 
     public function update(Usuario $model_usuario) : Usuario{
-        $sql = "UPDATE Usuario SET nome=?, email=?, senha=? WHERE id=? ";
+        $sql = "UPDATE Usuario SET nome=?, email=?, senha=sha1(?) WHERE id=? ";
         $stmt = parent::$conexao->prepare($sql);
 
         $stmt->bindValue(1, $model_usuario->nome);
@@ -51,13 +52,28 @@ final class UsuarioDAO extends DAO{
         $stmt = parent::$conexao->prepare($sql);
 
         $stmt->bindValue(1, $id);
-        $stmt->bindValue(2, $model_usuario->email);
-        $stmt->bindValue(3, $model_usuario->senha);
 
         $stmt->execute();
 
-        $model->Id = parent::$conexao->lastInsertId();
+        
 
-        return $model_usuario;
+        return $stmt->fetchObject();
+    }
+
+    public function select() : array{
+        $sql = "SELECT * FROM usuarios";
+
+        $stmt = parent::$conexao->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(DAO::FETCH_CLASS, "App\Model\Usuario");
+    }
+
+    public function delete(int $id) : bool{
+        $sql = "DELETE from usuario WHERE id=?";
+        $stmt = parent::$conexao->prepare($sql);
+        $stmt->bindValue(1, $id);
+
+        return $stmt->execute();
     }
 }

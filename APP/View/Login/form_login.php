@@ -20,7 +20,7 @@
 
             <div class="mb-3">
                 <label for="email" class="form-label">E-mail:</label>
-                <input type="email" value="<?= $model->Email ?>" class="form-control" name="email" id="email">
+                <input type="email" value="<?= $model->email ?>" class="form-control" name="email" id="email">
             </div>
             <div class="mb-3">
                 <label for="senha" class="form-label">Senha:</label>
@@ -32,6 +32,7 @@
             </div>
 
             <button type="submit" class="btn btn-success">Entrar</button>
+            <a class="btn btn-link" href="/usuario/cadastro" role="button">Não possui uma conta?</a>
 
         </form>
 

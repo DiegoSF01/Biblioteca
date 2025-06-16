@@ -3,6 +3,8 @@
 
 namespace App\Controller;
 
+use App\Model\Login;
+
 final class LoginController extends Controller{
     public static function index() : void{
         $erro = "";
@@ -10,12 +12,13 @@ final class LoginController extends Controller{
         $model = new Login();
 
         if($_SERVER['REQUEST_METHOD'] == "POST"){
-            $model->Email = $_POST['email'];
-            $model->Senha = $_POST['senha'];
+            $model->email = $_POST['email'];
+            $model->senha = $_POST['senha'];
 
             $model = $model->logar();
 
             if($model !== null){
+                $_SESSION["usuario_logado"] = $model;
                 if(isset($_POST['lembrar'])){
                     setcookie(
                         name: "sistema_biblioteca_usuario",
@@ -29,7 +32,7 @@ final class LoginController extends Controller{
                 $erro = "Email ou senha incorretos";
         }
         if(isset($_COOKIE['sistema_biblioteca_usuario']))
-            $model->Email = $_COOKIE['sistema_biblioteca_usuario'];
+            $model->email = $_COOKIE['sistema_biblioteca_usuario'];
         include VIEWS . '/login/form_login.php';
     }
 
@@ -39,6 +42,6 @@ final class LoginController extends Controller{
     }
 
     public static function getUsuario() : Login{
-        
+        return unserialize(serialize($_SESSION['usuario_logado']));
     }
 }

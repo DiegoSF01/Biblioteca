@@ -1,16 +1,16 @@
 <?php
-    namespace APP\Controller;
+    namespace App\Controller;
 
-    use APP\Model\Autor;
+    use App\Model\Categoria;
     use Exception;
 
-    final class AutorConrtoller extends Controller
+    final class CategoriaConrtoller extends Controller
     {
         public static function index() : void
         {
             parent::isProtected();
 
-            $model = new Autor();
+            $model = new Categoria();
 
             try
             {
@@ -18,36 +18,34 @@
             }
             catch(Exception $e)
             {
-                $model->setError("Ocorreu um erro ao buscar os autores:");
+                $model->setError("Ocorreu um erro ao buscar os categorias:");
                 $model->setError($e->getMessage());
             }
 
-            parent::render('Autor/lista_autor.php', $model);
+            parent::render('Categoria/lista_categoria.php', $model);
         }
 
-        public static function cadastro() : void
+        public static function cadasrto() : void
         {
             parent::isProtected();
 
-            $model = new Autor();
+            $model = new Categoria();
 
             try
             {
                 if(parent::isPost())
                 {
                     $model->Id = !empty($_POST['id']) ? $_POST['id'] : null;
-                    $model->Nome = $_POST['nome'];
-                    $model->Nascimento = $_POST['nascimento'];
-                    $model->CPF = $_POST['cpf'];
+                    $model->Descricao = $_POST['descricao'];
                     $model->save();
 
-                    parent::redirect("/autor");
+                    parent::redirect("/categoria");
                 }
                 else
                 {
                     if(isset($_GET['id']))
                     {
-                        $model = $model->selectById( (int) $_GET['id']);
+                        $model = $model->getById( (int) $_GET['id']);
                     }
                 }
             }
@@ -56,27 +54,26 @@
                 $model->setError($e->getMessage());
             }
 
-            parent::render('Autor/form_autor.php', $model);   
+            parent::render('Categoria/form_categoria.php', $model);   
         }
 
         public static function delete() : void
         {
             parent::isProtected();
 
-            $model = new Autor();
+            $model = new Categoria();
 
             try
             {
                 $model->delete( (int) $_GET['id']);
-                parent::redirect("/autor");
+                parent::redirect("/categoria");
             }
             catch (Exception $e)
             {
-                $model->setError("Ocorreu um erro ao excluir o autor:");
+                $model->setError("Ocorreu um erro ao excluir o categoria:");
                 $model->setError($e->getMessage());
             }
 
-            parent::render('Autor/form_autor.php', $model);   
+            parent::render('Categoria/form_categoria.php', $model);   
         }
     }
-?>
