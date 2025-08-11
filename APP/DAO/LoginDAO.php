@@ -4,10 +4,6 @@ namespace App\DAO;
 
 use App\Model\Login;
 
-/**
- * As classes DAO (Data Access Object) são responsáveis por executar os
- * SQL junto ao banco de dados.
- */
 final class LoginDAO extends DAO
 {
     public function autenticar(Login $model) : ?Login
