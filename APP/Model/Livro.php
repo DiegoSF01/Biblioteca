@@ -5,8 +5,10 @@ namespace App\Model;
 use App\DAO\LivroDAO;
 use Exception;
 
+
 final class Livro extends Model
 {
+   
     public ?int $Id = null;
 
     public array $rows_categorias = [];
@@ -68,15 +70,21 @@ final class Livro extends Model
         get => $this->Ano ?? null;
     }
 
+
+   
     function save() : Livro
     {
+       
         return new LivroDAO()->save($this);
     }
 
+
+   
     function getById(int $id) : ?Livro
     {
         return new LivroDAO()->selectById($id);
     }
+
 
     function getAllRows() : array
     {
